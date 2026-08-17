@@ -35,7 +35,7 @@ class CustomyDataClientTest < Minitest::Test
   end
 
   def test_portable_six_call_conformance
-    vectors = JSON.parse(File.read(File.expand_path("../../sdk-data/conformance/customer-data-v1.json", __dir__)))
+    vectors = JSON.parse(File.read(File.expand_path("../conformance/customer-data-v1.json", __dir__)))
     assert_equal Customy::Data::CONFORMANCE_CONTRACT, vectors["contract"]
     transport = RecordingTransport.new(Array.new(6, 202))
     sdk = client(transport)
