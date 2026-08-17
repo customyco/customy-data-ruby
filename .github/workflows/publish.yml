@@ -1,0 +1,30 @@
+name: publish
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    environment: release
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+          bundler-cache: false
+      - run: ruby -Ilib:test test/client_test.rb
+      - name: Verify tag matches gem version
+        run: ruby -Ilib -e "require 'customy/data'; expected=ENV.fetch('GITHUB_REF_NAME').delete_prefix('v'); abort("version mismatch") unless Customy::Data::VERSION == expected"
+      - uses: rubygems/release-gem@v1
