@@ -7,7 +7,7 @@ require "uri"
 
 module Customy
   module Data
-    VERSION = "0.1.0"
+    VERSION = "0.1.1"
     CONFORMANCE_CONTRACT = "customy.customer-data-sdk.conformance.v1"
     FORBIDDEN_TENANT_FIELDS = %w[tenantId organizationId projectId environmentId].freeze
     RETRYABLE_STATUSES = [429, 500, 502, 503, 504].freeze
